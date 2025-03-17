@@ -1,0 +1,230 @@
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { useItems } from "../store/itemStore";
+
+
+const ItemsPage = () => {
+  const {items,fetchItems} = useItems();
+  // console.log(items);
+
+  const [item, setItem] = useState({ name: "", quantity: "", expiryDate: "",details:"",moreDetails:"",price:"",image:"" });
+  const [editingItemId, setEditingItemId] = useState(null);
+
+  const handleChange = (e) => {
+    setItem({ ...item, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+     
+    const formData = new FormData();
+    formData.append("name", item.name);
+    formData.append("quantity", item.quantity);
+    formData.append("expiryDate", item.expiryDate);
+    formData.append("details", item.details);
+    formData.append("moreDetails", item.moreDetails);
+    formData.append("price", item.price);
+        
+    if (item.image) {
+      formData.append("image", item.image); // Append image file
+    }
+    try {
+      const response = await fetch(
+        editingItemId ? `http://localhost:5000/api/items/${editingItemId}` : "http://localhost:5000/api/items",
+        {
+          method: editingItemId ? "PUT" : "POST",
+          // headers: { "Content-Type": "application/json" },
+          // headers: { "Content-Type": "multipart/form-data" },
+          // body: JSON.stringify(item),
+          body: formData, // Send FormData instead of JSON
+        }
+      );
+      if (response.ok) {
+        fetchItems();
+        toast.success(editingItemId ? `${item.name} updated successfully!` : `${item.name} added successfully!`);
+        // alert(editingItemId ? "Item updated successfully!" : "Item added successfully!");
+      }
+    } catch (error) {
+      console.error(editingItemId ? "Error updating item:" : "Error adding item:", error);
+      toast.error(editingItemId ? "Error updating item:" : "Error adding item:", error);
+    }
+    setItem({ name: "", quantity: "", expiryDate: "",details:"",moreDetails:"",price:"",image:""});
+    setEditingItemId(null);
+  };
+
+  const handleEdit = (item) => {
+    setItem(item);
+    setEditingItemId(item._id);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top smoothly
+  };
+
+  const handleDelete = (id) => {
+    const closeToast = () => toast.dismiss();
+  
+    toast(
+      ({ closeToast }) => (
+        <div className="p-4 rounded-lg shadow-lg bg-white">
+          <p className="text-gray-800 font-semibold">Are you sure you want to delete this item?</p>
+          <div className="flex justify-end gap-3 mt-4">
+            <button
+              className="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition"
+              onClick={() => {
+                confirmDelete(id);
+                closeToast();
+              }}
+            >
+              Yes, Delete
+            </button>
+            <button
+              className="bg-gray-400 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-500 transition"
+              onClick={closeToast}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ),
+      { autoClose: false, closeOnClick: false }
+    );
+  };
+  
+  const confirmDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/items/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        fetchItems();
+        toast.success("Item deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      toast.error("Error deleting item!");
+    }
+  };
+
+  
+  return (
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-4 text-black">Manage Items</h1>
+
+      {/* Form Section - Half Width */}
+      <div className="w-1/2 mx-auto bg-white p-6 rounded-lg shadow">
+        <h2 className="text-lg font-bold mb-4">{editingItemId ? "Edit Item" : "Add Item"}</h2>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <label className="block text-sm font-medium">Item Name</label>
+            <input
+              type="text"
+              name="name"
+              value={item.name}
+              onChange={handleChange}
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              value={item.quantity}
+              onChange={handleChange}
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Expiry Date</label>
+            <input
+              type="date"
+              name="expiryDate"
+              value={item.expiryDate}
+              onChange={handleChange}
+              className="w-auto p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              required={!editingItemId}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Price</label>
+            <input
+              type="number"
+              name="price"
+              value={item.price}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+          <label className="block text-sm font-medium text-gray-700">Item Details</label>
+          <textarea
+            name="details"
+            value={item.details}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">More Information</label>
+          <textarea
+            name="moreDetails"
+            value={item.moreDetails}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Upload Image</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={(e) => setItem({ ...item, image: e.target.files[0] })}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+          >
+            {editingItemId ? "Update Item" : "Add Item"}
+          </button>
+        </form>
+      </div>
+
+      {/* List Section */}
+      <div className="mt-8 bg-white p-6 rounded-lg shadow">
+        <h2 className="text-lg font-bold mb-4">Item List</h2>
+        <ul className="divide-y divide-gray-300">
+          {items.map((item) => (
+            <li key={item._id} className="flex justify-between p-4 hover:bg-gray-100 rounded">
+              <div>
+                <p className="text-lg font-semibold">{item.name}</p>
+                <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+                <p className="text-sm text-gray-600">Expiry: {new Date(item.expiryDate).toDateString()}</p>
+              </div>
+              <div className="space-x-3">
+                <button onClick={() => handleEdit(item)} className="text-blue-600">
+                  Edit
+                </button>
+                <button
+                  
+                  onClick={() => handleDelete(item._id)}
+                  className="text-red-600"
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default ItemsPage;

@@ -6,6 +6,7 @@ import ItemsPage from "./pages/ItemsPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetails from "./pages/ProductDetails";
+import CartPage from "./pages/CartPage";
 
 // import { useEffect, useState } from "react";
 // import { getSettings } from "./api/settingsApi"; 
@@ -47,6 +48,7 @@ function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/cart" element={<CartPage />} />
           </Routes>
         </div>
       </div>

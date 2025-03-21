@@ -29,65 +29,66 @@ const InventoryTable = () => {
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-6 space-y-6">
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4 justify-between">
-        {/* Search by Name */}
-        <div className="flex flex-col">
-          <label className="text-gray-700 font-semibold mb-1">Search items</label>
-          <div className="relative">
-            <Search className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Type to search..."
-              className="w-64 pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        </div>
+     {/* Filters */}
+<div className="flex flex-wrap gap-6 justify-between items-end">
+  {/* Search by Name */}
+  <div className="flex flex-col">
+    <label className="text-gray-700 font-semibold mb-1">Search items</label>
+    <div className="relative">
+      <Search className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
+      <input
+        type="text"
+        placeholder="Type to search..."
+        className="w-64 pl-10 pr-4 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+    </div>
+  </div>
 
-        {/* Filter by Stock */}
-        <div className="flex flex-col">
-          <label className="text-gray-700 font-semibold mb-1">Filter Stock</label>
-          <div className="relative">
-            <Filter className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
-            <select
-              className="w-52 pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => setStockFilter(e.target.value)}
-            >
-              <option value="">Select</option>
-              <option value="> 10">Greater than 10</option>
-              <option value="< 10">Less than 10</option>
-              <option value="=== 10">Equal to 10</option>
-            </select>
-          </div>
-        </div>
+  {/* Filter by Stock */}
+  <div className="flex flex-col">
+    <label className="text-gray-700 font-semibold mb-1">Filter Stock</label>
+    <div className="relative">
+      <Filter className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
+      <select
+        className="w-52 pl-10 pr-4 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        onChange={(e) => setStockFilter(e.target.value)}
+      >
+        <option value="">Select</option>
+        <option value="> 10">Greater than 10</option>
+        <option value="< 10">Less than 10</option>
+        <option value="=== 10">Equal to 10</option>
+      </select>
+    </div>
+  </div>
 
-        {/* Filter by Expiry Date */}
-        <div className="flex flex-col">
-          <label className="text-gray-700 font-semibold mb-1">Expiry Date</label>
-          <div className="relative">
-            <Calendar className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
-            <input
-              type="date"
-              className="w-52 pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => setExpiryFilter(e.target.value)}
-            />
-          </div>
-        </div>
+  {/* Filter by Expiry Date */}
+  <div className="flex flex-col">
+    <label className="text-gray-700 font-semibold mb-1">Expiry Date</label>
+    <div className="relative">
+      <Calendar className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
+      <input
+        type="date"
+        className="w-52 pl-10 pr-4 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        onChange={(e) => setExpiryFilter(e.target.value)}
+      />
+    </div>
+  </div>
 
-        {/* Sort Button */}
-        <div className="flex flex-col">
-          <label className="text-gray-700 font-semibold mb-1 invisible">Sort</label>
-          <button
-            className="flex items-center gap-2 bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600"
-            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-          >
-            <ArrowUpDown className="w-5 h-5" />
-            Sort
-          </button>
-        </div>
-      </div>
+  {/* Sort Button */}
+  <div className="flex flex-col">
+    <label className="text-gray-700 font-semibold mb-1 invisible">Sort</label>
+    <button
+      className="flex items-center gap-2 bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 shadow-md transition-all"
+      onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+    >
+      <ArrowUpDown className="w-5 h-5" />
+      Sort
+    </button>
+  </div>
+</div>
+
 
       {/* Table */}
       <div className="overflow-x-auto">

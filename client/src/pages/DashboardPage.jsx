@@ -65,7 +65,7 @@ const DashboardPage = () => {
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-3xl font-bold">Dashboard</h1>
-      <p className="text-gray-600">Welcome to your medical inventory system</p>
+      <p className="text-gray-600">Welcome to medical inventory system</p>
       
        {/* Cards */}
        <div className="grid grid-cols-3 gap-6">

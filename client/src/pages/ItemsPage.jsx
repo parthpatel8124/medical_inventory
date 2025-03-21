@@ -108,93 +108,110 @@ const ItemsPage = () => {
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4 text-black">Manage Items</h1>
 
-      {/* Form Section - Half Width */}
-      <div className="w-1/2 mx-auto bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-bold mb-4">{editingItemId ? "Edit Item" : "Add Item"}</h2>
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <div>
-            <label className="block text-sm font-medium">Item Name</label>
-            <input
-              type="text"
-              name="name"
-              value={item.name}
-              onChange={handleChange}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Quantity</label>
-            <input
-              type="number"
-              name="quantity"
-              value={item.quantity}
-              onChange={handleChange}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Expiry Date</label>
-            <input
-              type="date"
-              name="expiryDate"
-              value={item.expiryDate}
-              onChange={handleChange}
-              className="w-auto p-2 border rounded focus:ring-2 focus:ring-blue-500"
-              required={!editingItemId}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Price</label>
-            <input
-              type="number"
-              name="price"
-              value={item.price}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+     {/* Form Section - Half Width */}
+<div className="w-1/2 mx-auto bg-white p-6 rounded-lg shadow-lg">
+  <h2 className="text-xl font-semibold mb-6 text-gray-800">
+    {editingItemId ? "Edit Item" : "Add Item"}
+  </h2>
+  <form onSubmit={handleSubmit} className="space-y-4">
+    
+    {/* Item Name */}
+    <div className="flex items-center gap-4">
+      <label className="w-1/3 text-sm font-medium text-gray-700">Item Name</label>
+      <input
+        type="text"
+        name="name"
+        value={item.name}
+        onChange={handleChange}
+        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        required
+      />
+    </div>
 
-          <div>
-          <label className="block text-sm font-medium text-gray-700">Item Details</label>
-          <textarea
-            name="details"
-            value={item.details}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">More Information</label>
-          <textarea
-            name="moreDetails"
-            value={item.moreDetails}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-      
+    {/* Quantity */}
+    <div className="flex items-center gap-4">
+      <label className="w-1/3 text-sm font-medium text-gray-700">Quantity</label>
+      <input
+        type="number"
+        name="quantity"
+        value={item.quantity}
+        onChange={handleChange}
+        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        required
+      />
+    </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Upload Image</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={(e) => setItem({ ...item, image: e.target.files[0] })}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+    {/* Expiry Date */}
+    <div className="flex items-center gap-4">
+      <label className="w-1/3 text-sm font-medium text-gray-700">Expiry Date</label>
+      <input
+        type="date"
+        name="expiryDate"
+        value={item.expiryDate}
+        onChange={handleChange}
+        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        required={!editingItemId}
+      />
+    </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-          >
-            {editingItemId ? "Update Item" : "Add Item"}
-          </button>
-        </form>
-      </div>
+    {/* Price */}
+    <div className="flex items-center gap-4">
+      <label className="w-1/3 text-sm font-medium text-gray-700">Price</label>
+      <input
+        type="number"
+        name="price"
+        value={item.price}
+        onChange={handleChange}
+        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+      />
+    </div>
+
+    {/* Item Details */}
+    <div className="flex items-start gap-4">
+      <label className="w-1/3 text-sm font-medium text-gray-700">Item Details</label>
+      <textarea
+        name="details"
+        value={item.details}
+        onChange={handleChange}
+        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+      />
+    </div>
+
+    {/* More Information */}
+    <div className="flex items-start gap-4">
+      <label className="w-1/3 text-sm font-medium text-gray-700">More Information</label>
+      <textarea
+        name="moreDetails"
+        value={item.moreDetails}
+        onChange={handleChange}
+        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+      />
+    </div>
+
+    {/* Upload Image */}
+    <div className="flex items-center gap-4">
+      <label className="w-1/3 text-sm font-medium text-gray-700">Upload Image</label>
+      <input
+        type="file"
+        name="image"
+        accept="image/*"
+        onChange={(e) => setItem({ ...item, image: e.target.files[0] })}
+        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+      />
+    </div>
+
+    {/* Submit Button */}
+    <div className="flex justify-end">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-5 py-3 rounded-lg hover:bg-blue-600 transition-all shadow-md"
+      >
+        {editingItemId ? "Update Item" : "Add Item"}
+      </button>
+    </div>
+  </form>
+</div>
+
 
       {/* List Section */}
       <div className="mt-8 bg-white p-6 rounded-lg shadow">

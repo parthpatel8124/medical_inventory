@@ -11,7 +11,9 @@ const SettingsSchema = new mongoose.Schema({
   notificationSound: { type: String, default: "default" },
   smartRestocking: { type: Boolean, default: false },
   auditLog: [{ type: String }], // Store actions history
-  barcodeScannerEnabled: { type: Boolean, default: true }
+  barcodeScannerEnabled: { type: Boolean, default: true },
+  currency: { type: String, default: "USD" }, // Currency Setting
+  lastUpdated: { type: Date, default: Date.now } // Last Updated Timestamp
 });
 
 const Settings = mongoose.model("Settings", SettingsSchema);

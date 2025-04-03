@@ -8,39 +8,12 @@ import ProductsPage from "./pages/ProductsPage";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 
-// import { useEffect, useState } from "react";
-// import { getSettings } from "./api/settingsApi"; 
-// import { useTranslation } from "react-i18next";
-
 function App() {
-
-  // const [theme, setTheme] = useState("light");
-  // useEffect(() => {
-  //   async function fetchSettings() {
-  //     const settings = await getSettings();
-  //     setTheme(settings.theme || "light");
-  //   }
-  //   fetchSettings();
-  // }, []);
-
-  // const { i18n } = useTranslation();
-
-  // useEffect(() => {
-  //   async function fetchSettings() {
-  //     const settings = await getSettings();
-  //     i18n.changeLanguage(settings.language || "en");
-  //   }
-  //   fetchSettings();
-  // }, [i18n]);
   return (
-    // <div className={theme === "dark" ? "dark-mode" : "light-mode"}>
     <Router>
       <div className="flex">
-        {/* Sidebar (Navigation) */}
         <Sidebar />
-
-        {/* Main Content */}
-        <div className="flex-1 p-6 overflow-auto bg-gray-100">
+        <main className="flex-1 ml-64 p-6 overflow-auto bg-gray-100">
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/inventory" element={<InventoryPage />} />
@@ -50,10 +23,9 @@ function App() {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/cart" element={<CartPage />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </Router>
-    // </div>
   );
 }
 

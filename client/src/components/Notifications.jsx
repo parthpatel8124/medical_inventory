@@ -43,7 +43,7 @@ const Notifications = () => {
       ) : (
         <ul className="space-y-2">
           {lowStockItems.map((item) => (
-            <li key={item.name} className="text-red-600">⚠ {item.name} is low in stock!</li>
+            <li key={item.name} className="text-red-600 dark:text-red-500">⚠ {item.name} is low in stock!</li>
           ))}
           {expiringSoonItems.map((item) => (
             <li key={item.name} className="text-orange-600">⏳ {item.name} is expiring soon!</li>
@@ -55,27 +55,3 @@ const Notifications = () => {
 };
 
 export default Notifications;
-
-// import { useEffect } from "react";
-// import { toast } from "react-hot-toast";
-// import { getSettings } from "../api/settingsApi";
-
-// const Notifications = ({ items }) => {
-//   useEffect(() => {
-//     async function fetchSettings() {
-//       const settings = await getSettings();
-//       if (settings.notificationsEnabled) {
-//         items.forEach(item => {
-//           if (item.quantity < settings.lowStockThreshold) {
-//             toast(`⚠ ${item.name} is low in stock!`, { icon: "🚨" });
-//             if (settings.notificationSound) new Audio("/alert.mp3").play();
-//           }
-//         });
-//       }
-//     }
-//     fetchSettings();
-//   }, [items]);
-
-//   return <div />;
-// };
-// export default Notifications;

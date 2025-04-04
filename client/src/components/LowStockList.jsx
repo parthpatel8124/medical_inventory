@@ -1,38 +1,59 @@
-import { useItems } from "../store/itemStore"; // ✅ Import useItems
-import { format } from "date-fns";
+import { useItems } from "../store/itemStore";
+import { AlertTriangle } from "lucide-react";
 
 const LowStockList = ({ setView }) => {
-  const { items } = useItems(); // ✅ Now useItems will work
+  const { items } = useItems();
   const lowStockItems = items.filter((item) => item.quantity < 10);
 
   return (
-    <div className="p-6">
-      <button onClick={() => setView("dashboard")} className="mb-4 px-4 py-2 bg-gray-300 rounded">
+    <div className="p-6 space-y-4">
+      <button 
+        onClick={() => setView("dashboard")} 
+        className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 hover:text-white rounded-lg transition-all"
+      >
         ⬅ Back to Dashboard
       </button>
-      <h2 className="text-2xl font-bold mb-4">Low Stock Items</h2>
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 p-2 text-left">Name</th>
-            <th className="border border-gray-300 p-2 text-left">Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lowStockItems.length > 0 ? (
-            lowStockItems.map((item) => (
-              <tr key={item._id}> {/* 🔥 Use unique key */}
-                <td className="border border-gray-300 p-2">{item.name}</td>
-                <td className="border border-gray-300 p-2">{item.quantity}</td>
+      
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <div className="flex items-center gap-2 mb-6">
+          <AlertTriangle className="w-6 h-6 text-red-500" />
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Low Stock Items</h2>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-50 dark:bg-gray-700">
+                <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-200 border dark:border-gray-600">Name</th>
+                <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-200 border dark:border-gray-600">Quantity</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="2" className="text-center text-gray-500 p-2">No low stock items</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {lowStockItems.length > 0 ? (
+                lowStockItems.map((item) => (
+                  <tr 
+                    key={item._id} 
+                    className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  >
+                    <td className="px-4 py-3 text-gray-800 dark:text-gray-200">{item.name}</td>
+                    <td className="px-4 py-3">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                        {item.quantity}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2" className="px-4 py-3 text-center text-gray-500 dark:text-gray-400">
+                    No low stock items found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

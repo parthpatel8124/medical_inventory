@@ -1,4 +1,4 @@
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useItems } from "../store/itemStore";
 import { Plus, Minus, ShoppingBag, ArrowRight, Search, ChevronDown } from "lucide-react";
 import { useState } from "react";
@@ -38,36 +38,36 @@ const ProductsPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl mt-6 mb-5 font-bold">Medicines</h1>
+      <h1 className="text-3xl mt-6 mb-5 font-bold text-gray-800 dark:text-gray-100">Medicines</h1>
       {/* Search and Sort Box */}
-      <div className="flex items-center justify-between p-4 bg-white shadow-lg rounded-lg mb-5">
-        <div className="flex items-center space-x-3">
-          {/* Search Input */}
-          <div className="flex items-center bg-gray-200 px-3 py-2 rounded-lg">
-            <Search className="text-gray-600" size={18} />
+      <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg mb-5">
+        <div className="flex items-center space-x-3 ">
+          {/* Search Input - Updated styling */}
+          <div className="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 px-3 py-2 rounded-lg ">
+            <Search className="text-gray-500 dark:text-gray-400" size={18} />
             <input
               type="text"
               placeholder="Search Medicines"
-              className="bg-transparent outline-none px-2 text-gray-800"
+              className="bg-transparent outline-none px-2 text-gray-700 dark:text-gray-200 w-64"
               onChange={handleSearch}
             />
           </div>
 
-          {/* Sort Button (A-Z, Z-A) */}
+          {/* Sort Button - Updated styling */}
           <button
             onClick={handleSortChange}
-            className="flex items-center bg-gray-200 px-3 py-1 rounded-lg cursor-pointer"
+            className="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 px-4 py-2 rounded-lg cursor-pointer transition-all text-gray-700 dark:text-gray-200"
           >
             {sortOrder === "asc" ? "Sort: A-Z" : "Sort: Z-A"}
             <ChevronDown className="ml-2" size={16} />
           </button>
         </div>
 
-        {/* Cart Icon */}
+        {/* Cart Icon - Updated styling */}
         <Link to="/cart">
-        <button className="p-2 text-blue-500 hover:text-blue-700 cursor-pointer">
-          <ShoppingBag size={25} />
-        </button>
+          <button className="p-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors">
+            <ShoppingBag size={25} />
+          </button>
         </Link>
       </div>
 
@@ -145,114 +145,3 @@ const ProductsPage = () => {
 };
 
 export default ProductsPage;
-
-
-// import { Link } from "react-router-dom";
-// import { useItems } from "../store/itemStore";
-// import  useCart  from "../store/cartStore"; 
-// import { Plus, Minus, ShoppingBag, ArrowRight, Search, ChevronDown } from "lucide-react";
-// import { useState } from "react";
-
-// const ProductsPage = () => {
-
-//   const { items } = useItems();
-//   const { addToCart,cart } = useCart();
-//   const [quantities, setQuantities] = useState({});
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [sortOrder, setSortOrder] = useState("asc");
-
-//   const handleIncrease = (id) => {
-//     setQuantities((prev) => ({
-//       ...prev,
-//       [id]: (prev[id] || 1) + 1,
-//     }));
-//   };
-
-//   const handleDecrease = (id) => {
-//     setQuantities((prev) => ({
-//       ...prev,
-//       [id]: prev[id] > 1 ? prev[id] - 1 : 1,
-//     }));
-//   };
-
-//   const handleAddToCart = (product) => {
-//     addToCart(product, quantities[product._id] || 1);
-//   };
-
-//   return (
-//     <div>
-//       <h1 className="text-3xl mt-6 mb-5 font-bold">Medicines</h1>
-
-//       {/* Search and Sort Box */}
-//       <div className="flex items-center justify-between p-4 bg-white shadow-lg rounded-lg mb-5">
-//         <div className="flex items-center space-x-3">
-//           <div className="flex items-center bg-gray-200 px-3 py-2 rounded-lg">
-//             <Search className="text-gray-600" size={18} />
-//             <input
-//               type="text"
-//               placeholder="Search Medicines"
-//               className="bg-transparent outline-none px-2 text-gray-800"
-//               onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
-//             />
-//           </div>
-
-//           <button onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-//             className="flex items-center bg-gray-200 px-3 py-1 rounded-lg cursor-pointer">
-//             {sortOrder === "asc" ? "Sort: A-Z" : "Sort: Z-A"}
-//             <ChevronDown className="ml-2" size={16} />
-//           </button>
-//         </div>
-
-//         {/* Cart Icon */}
-//         {/* Cart Icon with Badge */}
-//       <Link to="/cart" className="relative">
-//         <button className="p-2 text-blue-500 hover:text-blue-700 cursor-pointer">
-//           <ShoppingBag size={25} />
-//         </button>
-//         {cart.length > 0 && (
-//           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-//             {cart.length}
-//           </span>
-//         )}
-//       </Link>
-//       </div>
-
-//       {/* Products Section */}
-//       <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//         {items
-//           .filter((p) => p.name.toLowerCase().includes(searchTerm))
-//           .sort((a, b) => (sortOrder === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)))
-//           .map((product) => (
-//             <div key={product._id} className="p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all">
-//               <img src={product.image ? `http://localhost:5000${product.image}` : "/placeholder.jpeg"}
-//                 alt={product.name} className="w-full h-48 object-cover rounded-lg" />
-
-//               <h2 className="text-xl font-semibold text-gray-900 text-center">{product.name}</h2>
-//               <p className="font-bold text-lg text-blue-600 text-center">₹{product.price}</p>
-
-//               <div className="flex items-center justify-between p-2">
-//                 <div className="flex items-center space-x-2">
-//                   <button onClick={() => handleDecrease(product._id)}
-//                     className="px-2 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
-//                     <Minus size={16} />
-//                   </button>
-//                   <span className="text-lg font-semibold">{quantities[product._id] || 1}</span>
-//                   <button onClick={() => handleIncrease(product._id)}
-//                     className="px-2 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
-//                     <Plus size={16} />
-//                   </button>
-//                 </div>
-
-//                 <button onClick={() => handleAddToCart(product)}
-//                   className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600">
-//                   Add to Cart
-//                 </button>
-//               </div>
-//             </div>
-//           ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductsPage;

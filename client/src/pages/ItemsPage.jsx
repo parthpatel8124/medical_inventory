@@ -106,7 +106,7 @@ const ItemsPage = () => {
   
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4 text-black">Manage Items</h1>
+      <div className="text-3xl font-bold mb-4 text-black dark:text-white">Manage Items</div>
 
      {/* Form Section - Half Width */}
 <div className="w-1/2 mx-auto bg-white p-6 rounded-lg shadow-lg">
@@ -117,86 +117,86 @@ const ItemsPage = () => {
     
     {/* Item Name */}
     <div className="flex items-center gap-4">
-      <label className="w-1/3 text-sm font-medium text-gray-700">Item Name</label>
+      <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-white">Item Name</div>
       <input
         type="text"
         name="name"
         value={item.name}
         onChange={handleChange}
-        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        className="w-2/3 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none outline-1"
         required
       />
     </div>
 
     {/* Quantity */}
     <div className="flex items-center gap-4">
-      <label className="w-1/3 text-sm font-medium text-gray-700">Quantity</label>
+      <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-white">Quantity</div>
       <input
         type="number"
         name="quantity"
         value={item.quantity}
         onChange={handleChange}
-        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        className="w-2/3 p-3 rounded-lg  focus:ring-2 focus:ring-blue-500 focus:outline-none outline-1"
         required
       />
     </div>
 
     {/* Expiry Date */}
     <div className="flex items-center gap-4">
-      <label className="w-1/3 text-sm font-medium text-gray-700">Expiry Date</label>
+      <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-white">Expiry Date</div>
       <input
         type="date"
         name="expiryDate"
         value={item.expiryDate}
         onChange={handleChange}
-        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        className="w-2/3 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none outline-1 "
         required={!editingItemId}
       />
     </div>
 
     {/* Price */}
     <div className="flex items-center gap-4">
-      <label className="w-1/3 text-sm font-medium text-gray-700">Price</label>
+      <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-white">Price</div>
       <input
         type="number"
         name="price"
         value={item.price}
         onChange={handleChange}
-        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        className="w-2/3 p-3 rounded-lg  focus:ring-2 focus:ring-blue-500 focus:outline-none outline-1"
       />
     </div>
 
     {/* Item Details */}
     <div className="flex items-start gap-4">
-      <label className="w-1/3 text-sm font-medium text-gray-700">Item Details</label>
+      <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-white">Item Details</div>
       <textarea
         name="details"
         value={item.details}
         onChange={handleChange}
-        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+        className="w-2/3 p-3 rounded-lg  focus:ring-2 focus:ring-blue-500 focus:outline-none outline-1"
       />
     </div>
 
     {/* More Information */}
     <div className="flex items-start gap-4">
-      <label className="w-1/3 text-sm font-medium text-gray-700">More Information</label>
+      <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-white">More Information</div>
       <textarea
         name="moreDetails"
         value={item.moreDetails}
         onChange={handleChange}
-        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+        className="w-2/3 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none outline-1"
       />
     </div>
 
     {/* Upload Image */}
     <div className="flex items-center gap-4">
-      <label className="w-1/3 text-sm font-medium text-gray-700">Upload Image</label>
+      <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-white">Upload Image</div>
       <input
         type="file"
         name="image"
         accept="image/*"
         onChange={(e) => setItem({ ...item, image: e.target.files[0] })}
-        className="w-2/3 p-3 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+        className="w-2/3 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none outline-1 "
       />
     </div>
 
@@ -218,20 +218,20 @@ const ItemsPage = () => {
         <h2 className="text-lg font-bold mb-4">Item List</h2>
         <ul className="divide-y divide-gray-300">
           {items.map((item) => (
-            <li key={item._id} className="flex justify-between p-4 hover:bg-gray-100 rounded">
+            <li key={item._id} className="flex justify-between p-4 rounded">
               <div>
                 <p className="text-lg font-semibold">{item.name}</p>
                 <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
                 <p className="text-sm text-gray-600">Expiry: {new Date(item.expiryDate).toDateString()}</p>
               </div>
               <div className="space-x-3">
-                <button onClick={() => handleEdit(item)} className="text-blue-600">
+                <button onClick={() => handleEdit(item)} className="text-blue-600 dark:text-blue-400 hover:cursor-pointer">
                   Edit
                 </button>
                 <button
                   
                   onClick={() => handleDelete(item._id)}
-                  className="text-red-600"
+                  className="text-red-600 dark:text-red-400 hover:cursor-pointer"
                 >
                   Delete
                 </button>

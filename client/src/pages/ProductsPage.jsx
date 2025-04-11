@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { useItems } from "../store/itemStore";
+import useCart from "../store/cartStore";
+import { useSettings } from "../store/SettingsStore"; // Add this import
 import { Plus, Minus, ShoppingBag, ArrowRight, Search, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ProductsPage = () => {
-  const { items } = useItems();
+  const { items, fetchItems } = useItems(); // Add fetchItems
+  const { settings } = useSettings(); // Add this
+  const { addToCart } = useCart();
   const [quantities, setQuantities] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("asc"); // Default: A-Z sorting
@@ -29,6 +34,38 @@ const ProductsPage = () => {
 
   const handleSortChange = () => {
     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
+  const handleAddToCart = async (product, quantity) => {
+    try {
+      console.log("Starting add to cart process:", { product, quantity });
+      
+      if (!product._id) {
+        toast.error("Invalid product");
+        return;
+      }
+
+      if (!quantity || quantity < 1) {
+        toast.error("Please select a valid quantity");
+        return;
+      }
+
+      if (product.quantity < quantity) {
+        toast.error("Not enough stock available");
+        return;
+      }
+
+      const result = await addToCart(product._id, quantity);
+      
+      if (result) {
+        toast.success(`${product.name} added to cart!`);
+        setQuantities(prev => ({ ...prev, [product._id]: 1 }));
+        await fetchItems(); // Refresh the items list to update stock quantities
+      }
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      toast.error(error.response?.data?.message || "Failed to add item to cart");
+    }
   };
 
   // Filtering and Sorting by Name (A-Z or Z-A)
@@ -65,8 +102,8 @@ const ProductsPage = () => {
 
         {/* Cart Icon - Updated styling */}
         <Link to="/cart">
-          <button className="p-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors">
-            <ShoppingBag size={25} />
+          <button className="p-2 text-blue-600 dark:text-gray-200 hover:text-blue-700 dark:hover:text-blue-400 cursor-pointer transition-colors">
+            <ShoppingBag className="text-blue-500 hover:text-blue-700" size={25} />
           </button>
         </Link>
       </div>
@@ -110,7 +147,9 @@ const ProductsPage = () => {
               {/* Product Info */}
               <div className="p-4 text-center">
                 <h2 className="text-xl font-semibold text-gray-900">{product.name}</h2>
-                <p className="font-bold text-lg text-blue-600">₹{product.price}</p>
+                <p className="font-bold text-lg text-blue-600">
+                  {settings?.currency || '₹'} {product.price}
+                </p>
               </div>
 
               {/* Quantity Selector & Add to Cart */}
@@ -130,7 +169,10 @@ const ProductsPage = () => {
                     <Plus size={16} />
                   </button>
                 </div>
-                <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition-all">
+                <button 
+                  onClick={() => handleAddToCart(product, quantities[product._id] || 1)}
+                  className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition-all"
+                >
                   Add to Cart
                 </button>
               </div>

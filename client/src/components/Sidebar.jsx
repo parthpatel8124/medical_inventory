@@ -4,7 +4,7 @@ import { LayoutDashboard, ShoppingBag, PlusCircle, Settings, Package } from "luc
 const Sidebar = () => {
   return (
     <div className="fixed top-0 left-0 w-64  h-screen p-5 overflow-y-auto">
-      <h1 className="text-xl font-bold">MedInventory</h1>
+      <h1 className="text-2xl font-bold">MedInventory</h1>
       <nav className="mt-6 space-y-3">
         <Link 
           to="/" 

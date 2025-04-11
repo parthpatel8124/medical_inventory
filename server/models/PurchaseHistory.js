@@ -6,7 +6,10 @@ const PurchaseHistorySchema = new mongoose.Schema({
   quantity: Number,
   price: Number,
   totalAmount: Number,
-  purchaseDate: { type: Date, default: Date.now }
+  purchaseDate: { type: Date, default: Date.now },
+  buyerName: { type: String, required: true },
+  buyerPhone: { type: String, required: true },
+  paymentMode: { type: String, required: true, enum: ['cash', 'card', 'upi'] }
 });
 
 const PurchaseHistory = mongoose.model("PurchaseHistory", PurchaseHistorySchema);

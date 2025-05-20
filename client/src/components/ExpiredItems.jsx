@@ -20,7 +20,7 @@ const ExpiredItems = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="text-2xl font-bold text-gray-800 text-gray-200">Expired Items</div>
+      <div className="text-2xl font-bold text-gray-800 ">Expired Items</div>
 
       {/* Summary Card */}
       <div className=" p-6 rounded-lg border-1 border-red-400 shadow flex items-center space-x-4">

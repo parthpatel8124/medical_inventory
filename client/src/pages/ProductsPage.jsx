@@ -4,6 +4,7 @@ import useCart from "../store/cartStore";
 import { useSettings } from "../store/SettingsStore"; // Add this import
 import { Plus, Minus, ShoppingBag, ArrowRight, Search, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ProductsPage = () => {
   const { items, fetchItems } = useItems(); // Add fetchItems
@@ -12,9 +13,6 @@ const ProductsPage = () => {
   const [quantities, setQuantities] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("asc"); // Default: A-Z sorting
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [viewedProduct, setViewedProduct] = useState(null);
-  const [recommendations, setRecommendations] = useState([]);
 
   const handleIncrease = (id) => {
     setQuantities((prev) => ({
@@ -36,6 +34,38 @@ const ProductsPage = () => {
 
   const handleSortChange = () => {
     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
+  const handleAddToCart = async (product, quantity) => {
+    try {
+      console.log("Starting add to cart process:", { product, quantity });
+      
+      if (!product._id) {
+        toast.error("Invalid product");
+        return;
+      }
+
+      if (!quantity || quantity < 1) {
+        toast.error("Please select a valid quantity");
+        return;
+      }
+
+      if (product.quantity < quantity) {
+        toast.error("Not enough stock available");
+        return;
+      }
+
+      const result = await addToCart(product._id, quantity);
+      
+      if (result) {
+        toast.success(`${product.name} added to cart!`);
+        setQuantities(prev => ({ ...prev, [product._id]: 1 }));
+        await fetchItems(); // Refresh the items list to update stock quantities
+      }
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      toast.error(error.response?.data?.message || "Failed to add item to cart");
+    }
   };
 
   // Filtering and Sorting by Name (A-Z or Z-A)
@@ -85,7 +115,6 @@ const ProductsPage = () => {
             <div
               key={product._id}
               className="p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative"
-              onClick={() => handleProductClick(product)}
             >
               {/* Product Image */}
               <div className="relative">
@@ -153,39 +182,6 @@ const ProductsPage = () => {
           <p className="text-center text-gray-500 mt-6">No products found.</p>
         )}
       </div>
-
-      {/* Simplified Recommendations Section */}
-      {recommendations.length > 0 && (
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">Recommended Items</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {recommendations.map(product => (
-              <div 
-                key={product._id}
-                className="p-4 bg-white rounded-lg shadow hover:shadow-lg transition-all"
-              >
-                <img
-                  src={product.image ? `http://localhost:5000${product.image}` : "/placeholder.jpeg"}
-                  alt={product.name}
-                  className="w-full h-40 object-cover rounded"
-                />
-                <div className="mt-2">
-                  <h3 className="font-semibold">{product.name}</h3>
-                  <p className="text-blue-600 font-bold">
-                    {settings?.currency} {product.price}
-                  </p>
-                </div>
-                <button
-                  onClick={() => handleAddToCart(product, 1)}
-                  className="mt-2 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

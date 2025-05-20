@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useItems } from "../store/itemStore";
 import { ArrowUpDown, Search, Filter, Calendar } from "lucide-react";
 
-const InventoryTable = () => {
+const   InventoryTable = () => {
   const { items, formatDate } = useItems();
   const [searchQuery, setSearchQuery] = useState("");
   const [stockFilter, setStockFilter] = useState("");
@@ -39,7 +39,7 @@ const InventoryTable = () => {
             <input
               type="text"
               placeholder="Type to search..."
-              className="w-64 pl-10 pr-4 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-64 pl-10 pr-4 py-2 ring-1 ring-gray-500 rounded-lg bg-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -52,7 +52,7 @@ const InventoryTable = () => {
           <div className="relative">
             <Filter className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
             <select
-              className="w-52 pl-10 pr-4 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-52 pl-10 pr-4 py-2 ring-1 ring-gray-500 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
               onChange={(e) => setStockFilter(e.target.value)}
             >
               <option value="">Select</option>
@@ -70,7 +70,7 @@ const InventoryTable = () => {
             <Calendar className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
             <input
               type="date"
-              className="w-52 pl-10 pr-4 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-52 pl-10 pr-4 py-2 rounded-lg ring-1 ring-gray-500 bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none"
               onChange={(e) => setExpiryFilter(e.target.value)}
             />
           </div>

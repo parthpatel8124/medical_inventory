@@ -9,7 +9,7 @@ const RestockSuggestions = () => {
     <div className="bg-white p-6 rounded-lg shadow">
       <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
         <Lightbulb className="w-6 h-6 text-green-500" />
-        AI Restock Suggestions
+        Restock Suggestions
       </h2>
       {lowStockItems.length === 0 ? (
         <p className="text-gray-600">No restocking needed.</p>

@@ -8,7 +8,7 @@ const ExpiringSoonList = ({ setView }) => {
 
   return (
     <div className="p-6">
-      <button onClick={() => setView("dashboard")} className="mb-4 px-4 py-2 bg-gray-300 rounded">⬅ Back to Dashboard</button>
+      <button onClick={() => setView("dashboard")} className="mb-4 px-4 py-2 cursor-pointer  dark:text-gray">⬅ Back to Dashboard</button>
       <h2 className="text-2xl font-bold mb-4">Expiring Soon Items</h2>
       <table className="w-full border border-gray-300">
         <thead>

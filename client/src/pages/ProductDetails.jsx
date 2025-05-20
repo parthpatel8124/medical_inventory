@@ -5,7 +5,6 @@ const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,72 +23,61 @@ const ProductDetails = () => {
       });
   }, [id]);
 
-  const handlePurchase = () => {
-    if (quantity > product.quantity) {
-      alert("Not enough stock available.");
-      return;
-    }
-
-    fetch(`http://localhost:5000/api/items/${id}/buy`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quantity }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        alert(data.message);
-        navigate("/products");
-      })
-      .catch((error) => console.error("Error processing purchase:", error));
+  const handleBack = () => {
+    navigate(-1);
   };
 
   if (loading) return <p>Loading...</p>;
   if (!product) return <p>Product not found.</p>;
 
   return (
-    <div className="max-w-7xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
-      <div className="bg-gray-100 p-6 rounded-xl flex items-center justify-center">
-        <img
-          src={product.image ? `http://localhost:5000${product.image}` : "/placeholder.jpeg"}
-          // src={product.image?.startsWith("http") ? product.image : `http://localhost:5000${product.image}`}
-          alt={product.name}
-          className="w-full max-w-md h-auto object-cover rounded-lg"
-        />
-      </div>
-      <div className="flex flex-col justify-center space-y-6">
-        <h1 className="text-4xl font-bold">{product.name}</h1>
-        <p className="text-black font-semibold text-2xl">{product.details}</p>
-        <p className="text-black text-sm leading-relaxed overflow-auto max-h-40">{product.moreDetails}</p>
-        <p className="font-bold text-lg">Price: <span className="text-blue-600">${product.price}</span></p>
-        <p className={`text-lg font-semibold ${product.quantity < 50 ? "text-red-600" : product.quantity < 200 ? "text-orange-500" : "text-green-600"}`}>
-          Stock: {product.quantity}
-        </p>
-
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-          >
-            -
-          </button>
-          <span className="text-xl font-bold">{quantity}</span>
-          <button
-            onClick={() => setQuantity((prev) => Math.min(product.quantity, prev + 1))}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-          >
-            +
-          </button>
-        </div>
-
+    <div className="relative pt-20"> {/* Added pt-20 for top padding */}
+      <div className="max-w-7xl mx-auto px-8">
         <button
-          onClick={handlePurchase}
-          disabled={product.quantity === 0}
-          className={`w-full py-3 text-lg font-bold rounded-lg transition-all ${
-            product.quantity === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"
-          }`}
+          onClick={handleBack}
+          style={{
+            backgroundColor: 'var(--scroll-btn-bg)',
+            color: 'var(--scroll-btn-text)',
+          }}
+          className="absolute top-6 left-20 p-3 rounded-full 
+                     transition-all duration-300 z-50
+                     shadow-lg hover:shadow-xl
+                     hover:opacity-90"
+          aria-label="Go back"
         >
-          {product.quantity === 0 ? "Out of Stock" : "Buy now"}
+          <svg 
+            className="w-6 h-6" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
         </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="bg-gray-100 p-6 rounded-xl flex items-center justify-center">
+            <img
+              src={product.image ? `http://localhost:5000${product.image}` : "/placeholder.jpeg"}
+              alt={product.name}
+              className="w-full max-w-md h-auto object-cover rounded-lg"
+            />
+          </div>
+          <div className="flex flex-col justify-center space-y-6">
+            <h1 className="text-4xl font-bold">{product.name}</h1>
+            <p className="text-black font-semibold text-2xl">{product.details}</p>
+            <p className="text-black text-sm leading-relaxed overflow-auto max-h-40">{product.moreDetails}</p>
+            <p className="font-bold text-lg">Price: <span className="text-blue-600">${product.price}</span></p>
+            <p className={`text-lg font-semibold ${product.quantity < 50 ? "text-red-600" : product.quantity < 200 ? "text-orange-500" : "text-green-600"}`}>
+              Stock: {product.quantity}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

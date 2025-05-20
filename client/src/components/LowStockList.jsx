@@ -9,7 +9,7 @@ const LowStockList = ({ setView }) => {
     <div className="p-6 space-y-4">
       <button 
         onClick={() => setView("dashboard")} 
-        className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 hover:text-white rounded-lg transition-all"
+        className="mb-4 px-4 py-2 cursor-pointer  dark:text-gray"
       >
         ⬅ Back to Dashboard
       </button>
@@ -37,7 +37,7 @@ const LowStockList = ({ setView }) => {
                   >
                     <td className="px-4 py-3 text-gray-800 dark:text-gray-200">{item.name}</td>
                     <td className="px-4 py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium ">
                         {item.quantity}
                       </span>
                     </td>

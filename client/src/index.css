@@ -13,6 +13,9 @@
   --table-header: #f3f4f6;
   --table-row-hover: #f8fafc;
   --hover-text-color: #2563eb;
+  --scroll-btn-bg: #3b82f6;  /* blue-500 */
+  --scroll-btn-hover: #2563eb;  /* blue-600 */
+  --scroll-btn-text: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -35,6 +38,9 @@
   --hover-text-color: #2563eb;     /* Fixed hover text color */
   --button-hover: #4f46e5;         /* Fixed button hover color */
   --link-hover: #60a5fa;           /* Fixed link hover color */
+  --scroll-btn-bg: #374151;  /* gray-700 */
+  --scroll-btn-hover: #4b5563;  /* gray-600 */
+  --scroll-btn-text: #ffffff;
 }
 
 /* Global styles */

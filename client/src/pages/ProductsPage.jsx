@@ -3,7 +3,7 @@ import { useItems } from "../store/itemStore";
 import useCart from "../store/cartStore";
 import { useSettings } from "../store/SettingsStore"; // Add this import
 import { Plus, Minus, ShoppingBag, ArrowRight, Search, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const ProductsPage = () => {
@@ -13,6 +13,9 @@ const ProductsPage = () => {
   const [quantities, setQuantities] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("asc"); // Default: A-Z sorting
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [viewedProduct, setViewedProduct] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
 
   const handleIncrease = (id) => {
     setQuantities((prev) => ({
@@ -68,6 +71,38 @@ const ProductsPage = () => {
     }
   };
 
+  // Add this function to track viewed products
+  const handleProductView = (product) => {
+    setViewedProduct(product._id);
+  };
+
+  // Update the product card click handler
+  const handleProductClick = async (product) => {
+    handleProductView(product);
+    try {
+      const response = await fetch(`http://localhost:5000/api/recommendations/${product._id}`);
+      const data = await response.json();
+      setRecommendations(data);
+    } catch (error) {
+      console.error('Error fetching similar items:', error);
+    }
+  };
+
+  // Fetch recommendations when component mounts
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/recommendations');
+        const data = await response.json();
+        setRecommendations(data);
+      } catch (error) {
+        console.error('Error fetching recommendations:', error);
+      }
+    };
+
+    fetchRecommendations();
+  }, []);
+
   // Filtering and Sorting by Name (A-Z or Z-A)
   const filteredItems = items
     .filter((product) => product.name.toLowerCase().includes(searchTerm))
@@ -115,6 +150,7 @@ const ProductsPage = () => {
             <div
               key={product._id}
               className="p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative"
+              onClick={() => handleProductClick(product)}
             >
               {/* Product Image */}
               <div className="relative">
@@ -182,6 +218,39 @@ const ProductsPage = () => {
           <p className="text-center text-gray-500 mt-6">No products found.</p>
         )}
       </div>
+
+      {/* Simplified Recommendations Section */}
+      {recommendations.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4">Recommended Items</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {recommendations.map(product => (
+              <div 
+                key={product._id}
+                className="p-4 bg-white rounded-lg shadow hover:shadow-lg transition-all"
+              >
+                <img
+                  src={product.image ? `http://localhost:5000${product.image}` : "/placeholder.jpeg"}
+                  alt={product.name}
+                  className="w-full h-40 object-cover rounded"
+                />
+                <div className="mt-2">
+                  <h3 className="font-semibold">{product.name}</h3>
+                  <p className="text-blue-600 font-bold">
+                    {settings?.currency} {product.price}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleAddToCart(product, 1)}
+                  className="mt-2 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
